@@ -10,8 +10,8 @@ void Game::initVariables(){
     this->videoMode.height = 800;
     this->videoMode.width = 800;
     view = sf::View(sf::FloatRect(0,0,1000,1000));
-    this->b1 = Ball(std::make_pair(500.f,500.f),100.f, std::make_tuple(0.f,0.f,0.f));
-    this->b1.setVel(std::make_pair(10,10));
+    this->b1 = Ball(Vec({500,500}),100.f, std::make_tuple(0.f,0.f,0.f));
+    this->b1.setVel(Vec({10,10}));
 }
 
 
@@ -74,9 +74,6 @@ void Game::render(){
     sh.setFillColor(sf::Color::Green);
 
 
-    auto z = Vec({3,4,5});
-    std::cout << z << std::endl;
-
     this->window->draw(sh);
     this->window->draw(this->getShape(this->b1));
     this->window->display();
@@ -85,7 +82,7 @@ void Game::render(){
 sf::CircleShape Game::getShape(Ball ball) {
     auto cs = sf::CircleShape();
     cs.setRadius(ball.getRadius());
-    cs.setPosition(ball.getPos().first, ball.getPos().second);
+    cs.setPosition(ball.getPos()[0],ball.getPos()[1]);
     cs.setFillColor(sf::Color::Green);
     return cs;
 }

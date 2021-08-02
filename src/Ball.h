@@ -5,6 +5,8 @@
 #include <string>
 #include <tuple>
 
+#include "Vec.h"
+
 
 #ifndef SFML_TEST_BALL_H
 #define SFML_TEST_BALL_H
@@ -16,16 +18,16 @@ typedef std::tuple<float,float,float> rgb;
 
 class Ball {
 private:
-    vec2d pos, vel, acc;
+    Vec pos, vel, acc;
     float radius;
     rgb color;
 public:
-    Ball(vec2d pos, float radius, rgb color);
+    Ball(Vec pos, float radius, rgb color);
     Ball();
-    vec2d getPos();
+    Vec getPos();
     float getRadius() const;
     rgb getColor();
-    void setVel(vec2d vel);
+    void setVel(Vec vel);
 
     void updateBall();
 

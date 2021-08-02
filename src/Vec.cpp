@@ -15,13 +15,15 @@ Vec operator+(Vec v1, Vec v2) {
 
     auto out = Vec();
     for(int i = 0; i < v1.v.size(); i++){
-        float x = v1.v[i];
-        float y = v2.v[i];
+        float x = v1[i];
+        float y = v2[i];
         out.v.push_back(x+y);
     }
     return out;
 
 }
+
+
 
 std::ostream &operator<<(std::ostream &os, const Vec& v) {
 
@@ -35,4 +37,8 @@ std::ostream &operator<<(std::ostream &os, const Vec& v) {
     os << s;
     return os;
 
+}
+
+float Vec::operator[](int index) {
+    return this->v[index];
 }
