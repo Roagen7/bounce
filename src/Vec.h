@@ -5,22 +5,34 @@
 
 #include <vector>
 #include <iostream>
+#include <math.h>
 
 #ifndef SFML_TEST_VEC_H
 #define SFML_TEST_VEC_H
 
-typedef std::pair<float,float> vec2d;
 
 class Vec {
 private:
     std::vector<float> v;
 public:
-    Vec(std::vector<float> v);
+    explicit Vec(std::vector<float> v);
     Vec();
 
     friend Vec operator+ (Vec v1, Vec v2);
+    friend Vec operator- (Vec v1, Vec v2);
+    friend Vec operator/ (Vec v, float d);
+    friend Vec operator* (Vec v, float d);
     friend std::ostream& operator<<(std::ostream& os, const Vec& v1);
     float operator[](int index);
+
+    std::vector<float> getV();
+    void setV(int index, float value);
+    Vec normalize();
+    std::pair<Vec,Vec> splitAlongDir(Vec dir);
+
+    static float dot(Vec v1, Vec v2);
+    //static Vec cross(Vec v1, Vec v2);
+
 
 
 };

@@ -33,11 +33,39 @@ Ball::Ball() {
     this->color = std::make_tuple(0.f,0.f,0.f);
 }
 
-void Ball::updateBall() {
+void Ball::updateBall(Vec scrSize) {
     this->pos = this->pos + this->vel;
+    //std::cout << scrSize[0] << std::endl;
+    if(this->pos[0] + this->radius > scrSize[0]){
+        this->vel.setV(0,this->vel[0]*-1);
+        this->pos.setV(0,scrSize[0] - this->radius);
+    }
+    if(this->pos[1] + this->radius > scrSize[1]){
+        this->vel.setV(1,this->vel[1] * -1);
+        this->pos.setV(1,scrSize[1] - this->radius);
+    }
+    if(this->pos[1] - this->radius < 0){
+        this->vel.setV(1,this->vel[1] * -1);
+        this->pos.setV(1,this->radius);
+    }
+    if(this->pos[0] - this->radius < 0){
+        this->vel.setV(0,this->vel[0] * -1);
+        this->pos.setV(0,this->radius);
+    }
+
+
+
 }
 
 void Ball::setVel(Vec vel) {
     this->vel = vel;
+}
+
+Vec Ball::getVel() {
+    return this->vel;
+}
+
+void Ball::setPos(Vec pos) {
+    this->pos = pos;
 }
 

@@ -21,13 +21,15 @@ private:
     sf::VideoMode videoMode;
     sf::Color bg_color;
     sf::Vector2i mousePosWindow;
-    Ball b1;
+    Ball b1, b2;
+    std::vector<Ball> balls;
 
 
     void initVariables();
     void initWindow();
 
     sf::CircleShape getShape(Ball ball);
+    sf::VertexArray getShape(Vec v, Vec initPos);
 
 
 public:

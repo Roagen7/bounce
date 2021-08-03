@@ -26,10 +26,12 @@ public:
     Ball();
     Vec getPos();
     float getRadius() const;
+    Vec getVel();
     rgb getColor();
     void setVel(Vec vel);
+    void setPos(Vec pos);
 
-    void updateBall();
+    void updateBall(Vec srcSize);
 
 };
 
