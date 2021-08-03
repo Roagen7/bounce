@@ -21,9 +21,8 @@ private:
     sf::VideoMode videoMode;
     sf::Color bg_color;
     sf::Vector2i mousePosWindow;
-    Ball b1, b2;
     std::vector<Ball> balls;
-
+    Ball playerBall;
 
     void initVariables();
     void initWindow();
@@ -34,6 +33,8 @@ private:
 
 public:
     Game();
+
+    void updatePlayerBall();
 
     bool running();
     void updateMousePositions();

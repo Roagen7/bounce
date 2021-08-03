@@ -19,19 +19,22 @@ typedef std::tuple<float,float,float> rgb;
 class Ball {
 private:
     Vec pos, vel, acc;
-    float radius;
+    float radius, mass;
     rgb color;
 public:
-    Ball(Vec pos, float radius, rgb color);
+    Ball(Vec pos, float radius, float mass, rgb color);
     Ball();
     Vec getPos();
     float getRadius() const;
+    float getMass() const;
     Vec getVel();
     rgb getColor();
     void setVel(Vec vel);
     void setPos(Vec pos);
 
     void updateBall(Vec srcSize, std::vector<Ball> &balls);
+
+    static void collide(Ball& b1, Ball& b2);
 
 };
 

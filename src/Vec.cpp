@@ -7,6 +7,8 @@
 Vec::Vec(std::vector<float> v) {
     this->v = v;
 }
+
+
 Vec::Vec(){
 
 }
@@ -46,7 +48,7 @@ std::ostream &operator<<(std::ostream &os, const Vec& v) {
         s += std::to_string(x);
         s += "]\n";
     }
-    std::cout << s << std::endl;
+    //std::cout << s << std::endl;
     os << s;
     return os;
 
@@ -112,5 +114,10 @@ bool operator==(Vec v1, Vec v2) {
     }
     return true;
 }
+
+float Vec::len() {
+    return std::sqrt(Vec::dot(*this,*this));
+}
+
 
 

@@ -29,10 +29,12 @@ public:
     std::vector<float> getV();
     void setV(int index, float value);
     Vec normalize();
+    float len();
     std::pair<Vec,Vec> splitAlongDir(Vec dir);
 
     static float dot(Vec v1, Vec v2);
     //static Vec cross(Vec v1, Vec v2);
+
 
 
 

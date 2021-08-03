@@ -21,9 +21,10 @@ rgb Ball::getColor() {
 
 
 
-Ball::Ball(Vec pos, float radius, std::tuple<float,float,float> color) {
+Ball::Ball(Vec pos, float radius, float mass,std::tuple<float,float,float> color) {
     this->pos = pos;
     this->radius = radius;
+    this->mass = mass;
     this->color = color;
 }
 
@@ -54,18 +55,28 @@ void Ball::updateBall(Vec scrSize, std::vector<Ball> &balls) {
     }
 
     for(auto &ball : balls){
-        auto d = ball.getPos() - this->getPos();
-        auto l = std::sqrt(Vec::dot(d,d));
-        if(l <= ball.getRadius() + this->getRadius() && !(this->pos == ball.pos)){
-            std::cout << "collision" << std::endl;
-            std::cout << std::sqrt(Vec::dot(d,d)) << std::endl;
-            this->vel.setV(0,this->vel[0] * -1);
-            ball.vel.setV(0,ball.vel[0] * -1);
+        auto l = (ball.getPos() - this->getPos()).len();
+
+        if(l <= this->getRadius() + ball.getRadius()  && l != 0){
+            //std::cout << "collision" << std::endl;
+            Ball::collide(*this,ball);
+            //std::cout << std::sqrt(Vec::dot(d,d)) << std::endl;
+            //this->vel.setV(0,this->vel[0] * -1);
+            //this->vel.setV(1,this->vel[1] * -1);
+            //ball.vel.setV(0,ball.vel[0] * -1);
+            //this->setVel(this->getVel() * -1);
+            //.setVel(ball.getVel() * -1);
+
+
+
+
         }
+
 
         auto v2 = ball.getVel();
 
     }
+
 
 
 
@@ -82,5 +93,31 @@ Vec Ball::getVel() {
 
 void Ball::setPos(Vec pos) {
     this->pos = pos;
+}
+
+void Ball::collide(Ball &b1, Ball &b2) {
+    /*
+    auto tempVel = b1.getVel();
+    b1.setVel(b2.getVel());
+    b2.setVel(tempVel);
+     */
+    auto x1 = b1.getPos();
+    auto x2 = b2.getPos();
+    auto m1 = b1.getMass();
+    auto m2 = b2.getMass();
+    auto v1 = b1.getVel();
+    auto v2 = b2.getVel();
+
+    Vec v1p = v1 - (x1 - x2)  *  Vec::dot(v1-v2,x1-x2)   *  2 * m2 /(m1 + m2) / ((x2 - x1).len()*(x2-x1).len());
+    Vec v2p = v2 - (x2 - x1)  *  Vec::dot(v2-v1,x2-x1)   *  2 * m1 /(m1 + m2) / ((x2 - x1).len()*(x2-x1).len())  ;
+    b1.setVel(v1p);
+    b2.setVel(v2p);
+    b1.pos = b1.pos + b1.vel;
+    b2.pos = b2.pos + b2.vel;
+
+}
+
+float Ball::getMass() const {
+    return this->mass;
 }
 

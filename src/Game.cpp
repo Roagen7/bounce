@@ -10,12 +10,35 @@ void Game::initVariables(){
     this->videoMode.height = 1000;
     this->videoMode.width = 1000;
     view = sf::View(sf::FloatRect(0,0,1000,1000));
-    this->b1 = Ball(Vec({420,500}),100.f, std::make_tuple(0.f,0.f,0.f));
-    this->b1.setVel(Vec({1,1}));
-    this->b2 = Ball(Vec({720,800}),100.f, std::make_tuple(0.f,0.f,0.f));
-    this->b2.setVel(Vec({-1,-1}));
+
+
+    for(int i = 0; i  < 10; i++){
+        auto pos = Vec({0.f,0.f});
+        auto vel = Vec({0.f,0.f});
+
+        pos.setV(0,rand()%1000);
+        pos.setV(1,rand()%1000);
+        vel.setV(0,rand()%10 - 5);
+        vel.setV(1,rand()%10 - 5);
+
+        auto b = Ball(pos, 20.f, 10.f, std::make_tuple(rand()%255,rand()%255,rand()%255));
+        b.setVel(vel);
+        this->balls.push_back(b);
+
+    }
+
+    playerBall = Ball(Vec({0,0}),1.f,5,std::make_tuple(255,255,255));
+    playerBall.setVel(Vec({0,0}));
+
+    /*
+    this->b1 = Ball(Vec({420,500}),20.f,10, std::make_tuple(255.f,0.f,0.f));
+    this->b1.setVel(Vec({0,0}));
+    this->b2 = Ball(Vec({720,800}),100.f,40, std::make_tuple(0.f,255.f,0.f));
+    this->b2.setVel(Vec({-2,-2}));
     this->balls.push_back(b1);
     this->balls.push_back(b2);
+    */
+
 }
 
 
@@ -71,9 +94,30 @@ void Game::update(){
     z.x = this->videoMode.width;
     z.y = this->videoMode.height;
 
+    auto newPos = Vec({0,0});
+
+
+
+
+    if(this->mousePosWindow.x < this->videoMode.width && this->mousePosWindow.y < this->videoMode.height && this->mousePosWindow.x > 0 && this->mousePosWindow.y > 0){
+        //std::cout << this->mousePosWindow.x << " " << this->mousePosWindow.y << std::endl;
+        //std::cout << this->videoMode.width << " " << this->videoMode.height << std::endl;
+        newPos.setV(0,this->mousePosWindow.x);
+        newPos.setV(1,this->mousePosWindow.y);
+
+        playerBall.setVel(newPos - playerBall.getPos());
+        playerBall.setPos(newPos);
+
+    }
+
+
+
+
+    this->balls.push_back(playerBall);
     for(auto &ball : this->balls){
         ball.updateBall(Vec({z.x,z.y}), this->balls);
     }
+    this->balls.pop_back();
 
 }
 
@@ -91,12 +135,16 @@ void Game::render(){
 
     for(auto b1 : this->balls){
         this->window->draw(this->getShape(b1));
+        /*
         this->window->draw(this->getShape(b1.getVel(), b1.getPos()));
+
+
         auto bop = b1.getVel().splitAlongDir(Vec({-1,0}));
         this->window->draw(this->getShape(bop.first,b1.getPos()));
         this->window->draw(this->getShape(bop.second,b1.getPos()));
-
+        */
     }
+    this->window->draw(this->getShape(this->playerBall));
     this->window->display();
    // this->window->draw(sh);
 
@@ -109,7 +157,8 @@ sf::CircleShape Game::getShape(Ball ball) {
     auto cs = sf::CircleShape();
     cs.setRadius(ball.getRadius());
     cs.setPosition(ball.getPos()[0] - ball.getRadius(),ball.getPos()[1] - ball.getRadius());
-    cs.setFillColor(sf::Color::Green);
+    auto clr = sf::Color(std::get<0>(ball.getColor()), std::get<1>(ball.getColor()), std::get<2>(ball.getColor()));
+    cs.setFillColor(clr);
     return cs;
 }
 
@@ -119,7 +168,11 @@ sf::VertexArray Game::getShape(Vec v, Vec initPos) {
     auto vx = sf::VertexArray(sf::LineStrip,2);
     vx[0].position = sf::Vector2f(initPos[0],initPos[1]);
     vx[1].position = sf::Vector2f((v * 10 + initPos)[0], (v * 10 + initPos)[1]);
-    vx[0].color = sf::Color::Red;
+    vx[0].color = sf::Color::White;
     vx[1].color = sf::Color::White;
     return vx;
+}
+
+void Game::updatePlayerBall() {
+
 }
