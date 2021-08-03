@@ -31,7 +31,7 @@ public:
     void setVel(Vec vel);
     void setPos(Vec pos);
 
-    void updateBall(Vec srcSize);
+    void updateBall(Vec srcSize, std::vector<Ball> &balls);
 
 };
 

@@ -10,10 +10,10 @@ void Game::initVariables(){
     this->videoMode.height = 1000;
     this->videoMode.width = 1000;
     view = sf::View(sf::FloatRect(0,0,1000,1000));
-    this->b1 = Ball(Vec({420,500}),10.f, std::make_tuple(0.f,0.f,0.f));
-    this->b1.setVel(Vec({10,10}));
-    this->b2 = Ball(Vec({800,800}),10.f, std::make_tuple(0.f,0.f,0.f));
-    this->b2.setVel(Vec({-5,-10}));
+    this->b1 = Ball(Vec({420,500}),100.f, std::make_tuple(0.f,0.f,0.f));
+    this->b1.setVel(Vec({1,1}));
+    this->b2 = Ball(Vec({720,800}),100.f, std::make_tuple(0.f,0.f,0.f));
+    this->b2.setVel(Vec({-1,-1}));
     this->balls.push_back(b1);
     this->balls.push_back(b2);
 }
@@ -72,7 +72,7 @@ void Game::update(){
     z.y = this->videoMode.height;
 
     for(auto &ball : this->balls){
-        ball.updateBall(Vec({z.x,z.y}));
+        ball.updateBall(Vec({z.x,z.y}), this->balls);
     }
 
 }

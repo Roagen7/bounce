@@ -22,6 +22,7 @@ public:
     friend Vec operator- (Vec v1, Vec v2);
     friend Vec operator/ (Vec v, float d);
     friend Vec operator* (Vec v, float d);
+    friend bool operator==(Vec v1, Vec v2);
     friend std::ostream& operator<<(std::ostream& os, const Vec& v1);
     float operator[](int index);
 

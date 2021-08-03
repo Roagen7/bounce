@@ -33,7 +33,7 @@ Ball::Ball() {
     this->color = std::make_tuple(0.f,0.f,0.f);
 }
 
-void Ball::updateBall(Vec scrSize) {
+void Ball::updateBall(Vec scrSize, std::vector<Ball> &balls) {
     this->pos = this->pos + this->vel;
     //std::cout << scrSize[0] << std::endl;
     if(this->pos[0] + this->radius > scrSize[0]){
@@ -52,6 +52,21 @@ void Ball::updateBall(Vec scrSize) {
         this->vel.setV(0,this->vel[0] * -1);
         this->pos.setV(0,this->radius);
     }
+
+    for(auto &ball : balls){
+        auto d = ball.getPos() - this->getPos();
+        auto l = std::sqrt(Vec::dot(d,d));
+        if(l <= ball.getRadius() + this->getRadius() && !(this->pos == ball.pos)){
+            std::cout << "collision" << std::endl;
+            std::cout << std::sqrt(Vec::dot(d,d)) << std::endl;
+            this->vel.setV(0,this->vel[0] * -1);
+            ball.vel.setV(0,ball.vel[0] * -1);
+        }
+
+        auto v2 = ball.getVel();
+
+    }
+
 
 
 

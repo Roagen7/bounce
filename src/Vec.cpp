@@ -101,4 +101,16 @@ std::pair<Vec, Vec> Vec::splitAlongDir(Vec dir) {
     return std::make_pair(v_par,v_perp);
 }
 
+bool operator==(Vec v1, Vec v2) {
+    for(int i = 0; i < v1.getV().size(); i++){
+        float x,y;
+        x = v1.getV()[i];
+        y = v2.getV()[i];
+        if(x != y){
+            return false;
+        }
+    }
+    return true;
+}
+
 
