@@ -43,7 +43,7 @@ void Game::initVariables(){
 
 
 void Game::initWindow(){
-    this->window = new sf::RenderWindow(this->videoMode, "Caption",sf::Style::Titlebar | sf::Style::Close);
+    this->window = new sf::RenderWindow(this->videoMode, "Bouncing ballz",sf::Style::Titlebar | sf::Style::Close);
     this->window->setFramerateLimit(60);
     this->window->setView(this->view);
 }
