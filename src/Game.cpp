@@ -6,7 +6,7 @@
 #include <iostream>
 void Game::initVariables(){
     this->window = nullptr;
-    this->bg_color = sf::Color(0,0,0,255);
+    this->bg_color = sf::Color(255,255,255);
     this->videoMode.height = 1000;
     this->videoMode.width = 1000;
     view = sf::View(sf::FloatRect(0,0,1000,1000));
@@ -27,7 +27,7 @@ void Game::initVariables(){
 
     }
 
-    playerBall = Ball(Vec({0,0}),1.f,5,std::make_tuple(255,255,255));
+    playerBall = Ball(Vec({0,0}),10.f,5,std::make_tuple(255,255,255));
     playerBall.setVel(Vec({0,0}));
 
     /*
@@ -43,19 +43,15 @@ void Game::initVariables(){
 
 
 void Game::initWindow(){
-    this->window = new sf::RenderWindow(this->videoMode, "Caption",
-                                        sf::Style::Titlebar | sf::Style::Close);
+    this->window = new sf::RenderWindow(this->videoMode, "Caption",sf::Style::Titlebar | sf::Style::Close);
     this->window->setFramerateLimit(60);
     this->window->setView(this->view);
-
 }
 
 Game::Game(){
-    //srand(time(NULL));
-
+    srand(time(NULL));
     this->initVariables();
     this->initWindow();
-
 }
 
 bool Game::running() {
