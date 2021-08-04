@@ -18,10 +18,10 @@ void Game::initVariables(){
 
         pos.setV(0,rand()%1000);
         pos.setV(1,rand()%1000);
-        vel.setV(0,rand()%10 - 5);
-        vel.setV(1,rand()%10 - 5);
+        //vel.setV(0,rand()%10 - 5);
+        //vel.setV(1,rand()%10 - 5);
 
-        auto b = Ball(pos, 20.f, 10.f, std::make_tuple(rand()%255,rand()%255,rand()%255));
+        auto b = Ball(pos, 20.f, rand()%30, std::make_tuple(rand()%255,rand()%255,rand()%255));
         b.setVel(vel);
         this->balls.push_back(b);
 

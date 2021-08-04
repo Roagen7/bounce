@@ -11,9 +11,10 @@
 #ifndef SFML_TEST_BALL_H
 #define SFML_TEST_BALL_H
 
-
-typedef std::pair<float,float> vec2d;
 typedef std::tuple<float,float,float> rgb;
+
+const float FRICTION_COEFF = 0.005;
+
 
 
 class Ball {

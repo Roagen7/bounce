@@ -4,6 +4,8 @@
 
 #include "Ball.h"
 
+#include <utility>
+
 
 
 
@@ -22,8 +24,9 @@ rgb Ball::getColor() {
 
 
 Ball::Ball(Vec pos, float radius, float mass,std::tuple<float,float,float> color) {
-    this->pos = pos;
+    this->pos = std::move(pos);
     this->radius = radius;
+    this->radius =  mass; //radius mass 1:1s
     this->mass = mass;
     this->color = color;
 }
@@ -36,7 +39,12 @@ Ball::Ball() {
 
 void Ball::updateBall(Vec scrSize, std::vector<Ball> &balls) {
     this->pos = this->pos + this->vel;
-    //std::cout << scrSize[0] << std::endl;
+    if(this->vel.len() != 0){
+        this->acc = this->vel * -1 * FRICTION_COEFF;
+        this->vel = this->vel + this->acc;
+    }
+    std::cout << this->vel << " " << this->acc << std::endl;
+
     if(this->pos[0] + this->radius > scrSize[0]){
         this->vel.setV(0,this->vel[0]*-1);
         this->pos.setV(0,scrSize[0] - this->radius);
