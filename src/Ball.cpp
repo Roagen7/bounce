@@ -29,12 +29,14 @@ Ball::Ball(Vec pos, float radius, float mass,std::tuple<float,float,float> color
     this->radius =  mass; //radius mass 1:1s
     this->mass = mass;
     this->color = color;
+    this->vel = Vec({0,0});
 }
 
 Ball::Ball() {
     this->pos = Vec();
     this->radius = 0.f;
     this->color = std::make_tuple(0.f,0.f,0.f);
+    this->vel = Vec({0,0});
 }
 
 void Ball::updateBall(Vec scrSize, std::vector<Ball> &balls) {
@@ -43,7 +45,6 @@ void Ball::updateBall(Vec scrSize, std::vector<Ball> &balls) {
         this->acc = this->vel * -1 * FRICTION_COEFF;
         this->vel = this->vel + this->acc;
     }
-    std::cout << this->vel << " " << this->acc << std::endl;
 
     if(this->pos[0] + this->radius > scrSize[0]){
         this->vel.setV(0,this->vel[0]*-1);
@@ -66,18 +67,8 @@ void Ball::updateBall(Vec scrSize, std::vector<Ball> &balls) {
         auto l = (ball.getPos() - this->getPos()).len();
 
         if(l <= this->getRadius() + ball.getRadius()  && l != 0){
-            //std::cout << "collision" << std::endl;
+
             Ball::collide(*this,ball);
-            //std::cout << std::sqrt(Vec::dot(d,d)) << std::endl;
-            //this->vel.setV(0,this->vel[0] * -1);
-            //this->vel.setV(1,this->vel[1] * -1);
-            //ball.vel.setV(0,ball.vel[0] * -1);
-            //this->setVel(this->getVel() * -1);
-            //.setVel(ball.getVel() * -1);
-
-
-
-
         }
 
 

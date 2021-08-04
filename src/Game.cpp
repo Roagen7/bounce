@@ -15,20 +15,20 @@ void Game::initVariables(){
     for(int i = 0; i  < 10; i++){
         auto pos = Vec({0.f,0.f});
         auto vel = Vec({0.f,0.f});
-
         pos.setV(0,rand()%1000);
         pos.setV(1,rand()%1000);
-        //vel.setV(0,rand()%10 - 5);
-        //vel.setV(1,rand()%10 - 5);
 
-        auto b = Ball(pos, 20.f, rand()%30, std::make_tuple(rand()%255,rand()%255,rand()%255));
-        b.setVel(vel);
+        auto b = Ball(pos, 20.f, rand()%50+10, std::make_tuple(rand()%255,rand()%255,rand()%255));
         this->balls.push_back(b);
-
     }
 
+
+    this->hex = Polygon({Vec({1,2}), Vec({300,400}), Vec({500,450})});
+    this->hex2 = Polygon({Vec({100,200}), Vec({500,400}), Vec({800,800})});
+
+
     playerBall = Ball(Vec({0,0}),10.f,5,std::make_tuple(255,255,255));
-    playerBall.setVel(Vec({0,0}));
+
 
     /*
     this->b1 = Ball(Vec({420,500}),20.f,10, std::make_tuple(255.f,0.f,0.f));
@@ -96,8 +96,7 @@ void Game::update(){
 
 
     if(this->mousePosWindow.x < this->videoMode.width && this->mousePosWindow.y < this->videoMode.height && this->mousePosWindow.x > 0 && this->mousePosWindow.y > 0){
-        //std::cout << this->mousePosWindow.x << " " << this->mousePosWindow.y << std::endl;
-        //std::cout << this->videoMode.width << " " << this->videoMode.height << std::endl;
+
         newPos.setV(0,this->mousePosWindow.x);
         newPos.setV(1,this->mousePosWindow.y);
 
@@ -115,34 +114,46 @@ void Game::update(){
     }
     this->balls.pop_back();
 
+
+
 }
 
 void Game::render(){
     this->window->clear(this->bg_color);
-    auto sh = sf::RectangleShape();
-
-    //std::cout << Vec({12,5}).normalize()<<std::endl;
-
-    /*
-    sh.setSize(sf::Vector2f(20,20));
-    sh.setPosition(50,50);
-    sh.setFillColor(sf::Color::Green);
-    */
-
-    for(auto b1 : this->balls){
-        this->window->draw(this->getShape(b1));
-        /*
-        this->window->draw(this->getShape(b1.getVel(), b1.getPos()));
 
 
-        auto bop = b1.getVel().splitAlongDir(Vec({-1,0}));
-        this->window->draw(this->getShape(bop.first,b1.getPos()));
-        this->window->draw(this->getShape(bop.second,b1.getPos()));
-        */
+
+    std::vector<Vec> vs = Polygon::collisionSAT(hex,hex2);
+
+
+
+    this->window->draw(Game::getShape(this->playerBall));
+    //this->window->draw(Game::getShape(this->hex));
+
+
+//    for(int i = 0; i < hex.getVerts().size(); i++){
+//
+//
+//        Vec middlePos;
+//
+//        if(i == hex.getVerts().size() - 1){
+//            middlePos = (hex.getVerts()[i] + hex.getVerts()[0]) * 0.5f;
+//
+//        } else {
+//            middlePos = (hex.getVerts()[i + 1] + hex.getVerts()[i]) * 0.5f;
+//        }
+//
+//        this->window->draw(Game::getShape(vs[i].perp() * 10,middlePos));
+//    }
+
+
+
+    for(const auto& b1 : this->balls){
+        this->window->draw(Game::getShape(b1));
+
     }
-    this->window->draw(this->getShape(this->playerBall));
+
     this->window->display();
-   // this->window->draw(sh);
 
 
 }
@@ -164,11 +175,29 @@ sf::VertexArray Game::getShape(Vec v, Vec initPos) {
     auto vx = sf::VertexArray(sf::LineStrip,2);
     vx[0].position = sf::Vector2f(initPos[0],initPos[1]);
     vx[1].position = sf::Vector2f((v * 10 + initPos)[0], (v * 10 + initPos)[1]);
-    vx[0].color = sf::Color::White;
-    vx[1].color = sf::Color::White;
+    vx[0].color = sf::Color::Red;
+    vx[1].color = sf::Color::Red;
     return vx;
 }
 
+
+
 void Game::updatePlayerBall() {
 
+}
+
+sf::ConvexShape Game::getShape(Polygon p) {
+    sf::ConvexShape conv;
+    conv.setFillColor(sf::Color::Black);
+
+    conv.setPointCount(p.getVerts().size());
+    int i = 0;
+    for(auto v : p.getVerts()){
+        float x = v[0];
+        float y = v[1];
+        conv.setPoint(i, sf::Vector2f(x,y));
+        i++;
+    }
+
+    return conv;
 }

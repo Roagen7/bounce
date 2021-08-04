@@ -48,7 +48,7 @@ std::ostream &operator<<(std::ostream &os, const Vec& v) {
         s += std::to_string(x);
         s += "]\n";
     }
-    //std::cout << s << std::endl;
+
     os << s;
     return os;
 
@@ -117,6 +117,14 @@ bool operator==(Vec v1, Vec v2) {
 
 float Vec::len() {
     return std::sqrt(Vec::dot(*this,*this));
+}
+
+Vec Vec::perp() {
+    Vec x = *this;
+    x.setV(0,this->getV()[1] * -1);
+    x.setV(1, this->getV()[0]);
+    return x;
+
 }
 
 

@@ -1,3 +1,4 @@
 balls elastically colliding
 
-![](balls.gif)
+![](balls2.gif)
+![](balls.gif)s

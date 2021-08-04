@@ -11,7 +11,7 @@
 
 #include "Ball.h"
 #include "Vec.h"
-
+#include "Polygon.h"
 
 class Game {
 private:
@@ -23,13 +23,15 @@ private:
     sf::Vector2i mousePosWindow;
     std::vector<Ball> balls;
     Ball playerBall;
+    Polygon hex;
+    Polygon hex2;
 
     void initVariables();
     void initWindow();
 
-    sf::CircleShape getShape(Ball ball);
-    sf::VertexArray getShape(Vec v, Vec initPos);
-
+    static sf::CircleShape getShape(Ball ball);
+    static sf::VertexArray getShape(Vec v, Vec initPos);
+    static sf::ConvexShape getShape(Polygon p);
 
 public:
     Game();

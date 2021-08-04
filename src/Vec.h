@@ -29,6 +29,7 @@ public:
     std::vector<float> getV();
     void setV(int index, float value);
     Vec normalize();
+    Vec perp();
     float len();
     std::pair<Vec,Vec> splitAlongDir(Vec dir);
 
